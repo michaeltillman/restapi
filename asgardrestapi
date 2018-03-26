@@ -1,0 +1,50 @@
+#!/bin/sh
+# asgardrestapi          start/stop the asgardrestapi daemon.
+# chkconfig: 2345 90 60
+# description: asgardrestapi service allows you to interact with openstack 
+SERVICE_NAME=asgardrestapi
+PATH_TO_JAR=/opt/asgardrestapi/dist-openstack-api-1.0.5.1.jar
+PATH_TO_YAML=/opt/asgardrestapi/RestAPIConfiguration.yml
+JAVA_OPTS="-Djavax.net.ssl.trustStore=/opt/asgardrestapi/os-api.jks -Djavax.net.ssl.trustStorePassword=asgard -Dhttps.protocols=TLSv1.2,TLSv1.1 -Dhttps.cipherSuites=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256 -Ddeployment.security.TLSv1.2=true -Ddeployment.security.TLSv1.1=true -Dfile.encoding=UTF-8 -Xms2048m -Xmx2048m -XX:PermSize=2048m -XX:MaxPermSize=2048m -DskipCacheFill=true"
+PID_PATH_NAME=/tmp/asgardrestapi.pid
+
+case $1 in
+    start)
+        if [ ! -d /var/asgardrestapi ]; then
+            mkdir -p /var/asgardrestapi
+        fi
+        echo "Starting $SERVICE_NAME ..."
+        if [ ! -f $PID_PATH_NAME ]; then
+            nohup java $JAVA_OPTS -jar $PATH_TO_JAR server $PATH_TO_YAML >> /var/asgardrestapi/system.log 2>&1 & echo $! > $PID_PATH_NAME
+            echo "$SERVICE_NAME started ..."
+        else
+            echo "$SERVICE_NAME is already running ..."
+        fi
+    ;;
+    stop)
+        if [ -f $PID_PATH_NAME ]; then
+            PID=$(cat $PID_PATH_NAME);
+            echo "$SERVICE_NAME stoping ..."
+            kill $PID;
+            echo "$SERVICE_NAME stopped ..."
+            rm $PID_PATH_NAME
+        else
+            echo "$SERVICE_NAME is not running ..."
+        fi
+    ;;
+    restart)
+        if [ -f $PID_PATH_NAME ]; then
+            PID=$(cat $PID_PATH_NAME);
+            echo "$SERVICE_NAME stopping ...";
+            kill $PID;
+            echo "$SERVICE_NAME stopped ...";
+            rm $PID_PATH_NAME
+            echo "$SERVICE_NAME starting ..."
+            sudo bash $PATH_TO_ENV_SHELL
+            nohup java $JAVA_OPTS -jar $PATH_TO_JAR server $PATH_TO_YAML >> /var/asgardrestapi/system.log 2>&1 & echo $! > $PID_PATH_NAME
+            echo "$SERVICE_NAME started ..."
+        else
+            echo "$SERVICE_NAME is not running ..."
+        fi
+    ;;
+esac

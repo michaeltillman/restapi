@@ -1,0 +1,47 @@
+server:
+  applicationConnectors:
+    - type: http
+      port: 8080
+  adminConnectors:
+    - type: http
+      port: 9001
+
+sourceKeyUrl: https://openstack.tpa.servevirtual.net:5000/v2.0/tokens
+sourceGlanceUrl: https://openstack.tpa.servevirtual.net:9292/v2/images
+sourceUser: svc.jnk
+sourcePassword: Besdyct[
+sourceTenant: TEST_Asgard
+targetKeyUrl: http://10.114.16.11:5000/v2.0/tokens
+targetGlanceUrl: http://10.114.16.11:9292/v2/images
+targetUser: bakery
+targetPassword: D3cept!ons
+targetTenantsUrl: http://10.114.16.11:5000/v2.0/tenants
+apiClientUser: bakery
+apiClientPassword: D3cept!ons
+
+#new OS / test OS
+#sourceKeyUrl: https://openstack.tpa.servevirtual.net:5000/v2.0/tokens
+#sourceGlanceUrl: https://openstack.tpa.servevirtual.net:9292/v2/images
+#sourceUser: mtillma
+#sourcePassword: #######
+#sourceTenant: TEST_Asgard
+#targetKeyUrl: http://10.114.16.11:5000/v2.0/tokens
+#targetGlanceUrl: http://10.114.16.11:9292/v2/images
+#targetUser: bakery
+#targetPassword: ######
+#targetTenantsUrl: http://10.114.16.11:5000/v2.0/tenants
+#apiClientUser: bakery
+#apiClientPassword: #######
+
+#sourceKeyUrl: http://10.114.16.11:5000/v2.0/tokens
+#sourceGlanceUrl: http://10.114.16.11:9292/v2/images
+#sourceUser: bakery
+#sourcePassword: {password}
+#sourceTenant: Bakery
+#targetKeyUrl: http://10.115.26.157:5000/v2.0/tokens
+#targetGlanceUrl: http://10.115.26.157:9292/v2/images
+#targetUser: admin
+#targetPassword: {password}
+#targetTenantsUrl: http://10.115.26.157:5000/v2.0/tenants
+#apiClientUser: bakery
+#apiClientPassword: {password}
